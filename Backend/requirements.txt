@@ -1,0 +1,18 @@
+# Backend web framework
+fastapi==0.110.0          # or use Flask if your app.py uses Flask
+uvicorn==0.29.0           # FastAPI server
+
+# LLM & ML dependencies
+transformers==4.39.3
+torch==2.2.2              # or tensorflow==2.15.0 if you're using TensorFlow
+scikit-learn==1.4.1
+pandas==2.2.1
+numpy==1.26.4
+
+# SQL & ORM
+sqlalchemy==2.0.29
+aiosqlite==0.19.0         # only if you plan async sqlite
+
+# Other utilities
+python-dotenv==1.0.1      # if using .env files
+python-multipart==0.0.9   # for handling form uploads (FastAPI)
