@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fake E-commerce Checkout</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f1f3f6;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: #2874f0;
+        color: white;
+        padding: 15px 20px;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      nav {
+        background-color: white;
+        padding: 10px 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        gap: 15px;
+      }
+      nav a {
+        color: #2874f0;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+      .container {
+        max-width: 400px;
+        margin: 40px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        margin-bottom: 20px;
+        color: #2874f0;
+      }
+      form input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 2px;
+        font-size: 16px;
+      }
+      form input[type="text"][name="honeypot_field"] {
+        display: none;
+      }
+      form button {
+        width: 100%;
+        background-color: #fb641b;
+        border: none;
+        color: white;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 2px;
+        cursor: pointer;
+      }
+      form button:hover {
+        background-color: #e55300;
+      }
+    </style>
+  </head>
+  <body>
+    <header>Fake E-commerce</header>
+    <nav>
+      <a href="/login">Login</a>
+      <a href="/signup">Sign Up</a>
+      <a href="/product">Products</a>
+      <a href="/checkout">Checkout</a>
+      <a href="/dashboard">Dashboard</a>
+    </nav>
+    <div class="container">
+      <h2>Checkout</h2>
+      <form method="POST" action="/checkout">
+        <input
+          type="text"
+          name="card_number"
+          placeholder="Card Number"
+          required
+        />
+        <input type="text" name="exp" placeholder="MM/YY" required />
+        <input type="text" name="cvv" placeholder="CVV" required />
+        <input type="text" name="honeypot_field" />
+        <button type="submit">Checkout</button>
+      </form>
+    </div>
+  </body>
+</html>

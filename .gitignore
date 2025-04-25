@@ -1,5 +1,5 @@
 venv/
-honeypot_system_hf.log
+./honeypot_system_hf.log
 .env
 *.pyc
 *.log
