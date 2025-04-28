@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flipkart Clone - Checkout</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f1f3f6;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .checkout-container {
+        background: white;
+        padding: 30px;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+        width: 350px;
+      }
+      h2 {
+        margin-top: 0;
+        text-align: center;
+        color: #2874f0;
+      }
+      input[type="text"],
+      input[type="password"],
+      input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 2px;
+        outline: none;
+        box-sizing: border-box;
+      }
+      button {
+        background-color: #2874f0;
+        border: none;
+        color: white;
+        padding: 10px;
+        width: 100%;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 2px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="checkout-container">
+      <h2>Checkout</h2>
+      <form method="POST" action="/process_payment">
+        <input
+          type="text"
+          name="card_number"
+          placeholder="Card Number"
+          maxlength="16"
+          required
+        />
+        <input
+          type="text"
+          name="card_expiry"
+          placeholder="Expiry Date (MM/YY)"
+          maxlength="5"
+          required
+        />
+        <input
+          type="password"
+          name="card_cvv"
+          placeholder="CVV"
+          maxlength="3"
+          required
+        />
+        <button type="submit">Pay Now</button>
+      </form>
+    </div>
+  </body>
+</html>
