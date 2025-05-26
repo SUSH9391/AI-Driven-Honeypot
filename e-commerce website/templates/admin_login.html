@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Login - Flipkart Clone</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f1f3f6;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .login-container {
+        background: white;
+        padding: 30px;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+        width: 300px;
+      }
+      h2 {
+        margin-top: 0;
+        text-align: center;
+        color: #2874f0;
+      }
+      select,
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 2px;
+        outline: none;
+      }
+      button {
+        background-color: #2874f0;
+        border: none;
+        color: white;
+        padding: 10px;
+        width: 100%;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 2px;
+      }
+      .back-link {
+        text-align: center;
+        margin-top: 10px;
+      }
+      .back-link a {
+        color: #2874f0;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .flash-message {
+        color: red;
+        text-align: center;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h2>Admin Login</h2>
+
+      {% with messages = get_flashed_messages() %} {% if messages %} {% for
+      message in messages %}
+      <div class="flash-message">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <form method="POST" action="{{ url_for('admin_login') }}">
+        <label for="role">Role</label>
+        <select id="role" name="role" required>
+          <option value="">Select Role</option>
+          <option value="owner">Owner</option>
+          <option value="manager">Manager</option>
+          <option value="staff">Staff</option>
+        </select>
+
+        <label for="adminid">Admin ID</label>
+        <input
+          type="text"
+          id="adminid"
+          name="adminid"
+          placeholder="Admin ID"
+          required
+        />
+
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+
+        <button type="submit">Login</button>
+      </form>
+
+      <div class="back-link">
+        <a href="{{ url_for('login') }}">Back to Customer Login</a>
+      </div>
+    </div>
+  </body>
+</html>

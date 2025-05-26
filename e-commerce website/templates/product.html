@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flipkart Clone - Product Detail</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f1f3f6;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: #2874f0;
+        color: white;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .product-detail {
+        max-width: 800px;
+        margin: 20px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+        display: flex;
+        gap: 20px;
+      }
+      .product-image {
+        flex: 1;
+      }
+      .product-image img {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+      .product-info {
+        flex: 2;
+      }
+      .product-info h2 {
+        margin-top: 0;
+      }
+      .price {
+        color: #388e3c;
+        font-weight: bold;
+        font-size: 24px;
+        margin: 10px 0;
+      }
+      .add-to-cart {
+        background-color: #fb641b;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <header onclick="location.href='/'">
+      <h1>Flipkart Clone</h1>
+    </header>
+    <div class="product-detail">
+      <div class="product-image">
+        <img
+          src="https://via.placeholder.com/300"
+          alt="Product {{ product_id }}"
+        />
+      </div>
+      <div class="product-info">
+        <h2>Product {{ product_id }}</h2>
+        <p class="price">₹999</p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non
+          urna vitae odio cursus tincidunt.
+        </p>
+        <form method="GET" action="/add_to_cart/{{ product_id }}">
+          <button type="submit" class="add-to-cart">Add to Cart</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

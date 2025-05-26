@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fake E-commerce Products</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f1f3f6;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: #2874f0;
+        color: white;
+        padding: 15px 20px;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      nav {
+        background-color: white;
+        padding: 10px 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        gap: 15px;
+      }
+      nav a {
+        color: #2874f0;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 0 20px;
+      }
+      .search-bar {
+        margin-bottom: 20px;
+        display: flex;
+        gap: 10px;
+      }
+      .search-bar input[type="text"] {
+        flex: 1;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+      }
+      .product-card {
+        background: white;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: box-shadow 0.3s ease;
+      }
+      .product-card:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      }
+      .product-name {
+        font-size: 18px;
+        font-weight: bold;
+        color: #212121;
+        margin-bottom: 10px;
+        min-height: 48px;
+      }
+      .product-price {
+        color: #fb641b;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .product-stock {
+        font-size: 14px;
+        color: #388e3c;
+        margin-bottom: 15px;
+      }
+      .buy-button {
+        background-color: #fb641b;
+        color: white;
+        border: none;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 2px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+      }
+      .buy-button:hover {
+        background-color: #e55300;
+      }
+      #cart-message {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #388e3c;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        display: none;
+        z-index: 1000;
+      }
+      footer {
+        text-align: center;
+        padding: 15px;
+        color: #888;
+        font-size: 14px;
+        margin-top: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>Fake E-commerce</header>
+    <nav>
+      <a href="/login">Login</a>
+      <a href="/signup">Sign Up</a>
+      <a href="/product">Products</a>
+      <a href="/checkout">Checkout</a>
+      <a href="/dashboard">Dashboard</a>
+    </nav>
+    <div class="container">
+      <h1>Products</h1>
+      <div class="search-bar">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search products by name..."
+          onkeyup="filterProducts()"
+        />
+      </div>
+      {% if products %}
+      <div class="product-grid" id="productGrid">
+        {% for product in products %}
+        <div
+          class="product-card"
+          data-name="{{ product.get('name', '') | lower }}"
+        >
+          <div class="product-name">
+            {{ product.get('name', 'Unknown Product') }}
+          </div>
+          <div class="product-price">${{ product.get('price', 'N/A') }}</div>
+          <div class="product-stock">
+            Stock: {{ product.get('stock', 'N/A') }}
+          </div>
+          <button
+            class="buy-button"
+            onclick="addToCart('{{ product.get('name', 'Unknown Product') }}')"
+          >
+            Add to Cart
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p>No products available at the moment.</p>
+      {% endif %}
+    </div>
+    <div id="cart-message"></div>
+    <footer>&copy; 2024 Fake E-commerce. All rights reserved.</footer>
+    <script>
+      function filterProducts() {
+        const input = document.getElementById("searchInput");
+        const filter = input.value.toLowerCase();
+        const productGrid = document.getElementById("productGrid");
+        const products = productGrid.getElementsByClassName("product-card");
+        for (let i = 0; i < products.length; i++) {
+          const name = products[i].getAttribute("data-name");
+          if (name.includes(filter)) {
+            products[i].style.display = "";
+          } else {
+            products[i].style.display = "none";
+          }
+        }
+      }
+      function addToCart(productName) {
+        const messageDiv = document.getElementById("cart-message");
+        messageDiv.textContent = productName + " added to cart!";
+        messageDiv.style.display = "block";
+        setTimeout(() => {
+          messageDiv.style.display = "none";
+        }, 2000);
+      }
+    </script>
+  </body>
+</html>

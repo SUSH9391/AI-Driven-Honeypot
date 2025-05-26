@@ -1,0 +1,1 @@
+{"timestamp": "2025-04-25 12:56:59.671888", "event_type": "carding_attempt", "ip": "127.0.0.1", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36", "details": {"card_number": "234", "exp": "09/25", "cvv": "2345"}}

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flipkart Clone - Signup</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f1f3f6;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .signup-container {
+        background: white;
+        padding: 30px;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+        width: 350px;
+      }
+      h2 {
+        margin-top: 0;
+        text-align: center;
+        color: #2874f0;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 2px;
+        outline: none;
+        box-sizing: border-box;
+      }
+      button {
+        background-color: #2874f0;
+        border: none;
+        color: white;
+        padding: 10px;
+        width: 100%;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 2px;
+        margin-top: 10px;
+      }
+      button:disabled {
+        background-color: #a0a0a0;
+        cursor: not-allowed;
+      }
+      .login-link {
+        text-align: center;
+        margin-top: 10px;
+      }
+      .login-link a {
+        color: #2874f0;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .email-verification {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .email-verification input[type="email"] {
+        flex-grow: 1;
+      }
+      .timer {
+        font-size: 12px;
+        color: #555;
+      }
+      .verified-message {
+        color: green;
+        font-weight: bold;
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="signup-container">
+      <h2>Sign Up</h2>
+      <form id="signup-form" method="POST" action="{{ url_for('signup') }}">
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Username"
+          required
+        />
+        <input
+          type="text"
+          id="first-name"
+          name="first-name"
+          placeholder="First Name"
+          required
+        />
+        <input
+          type="text"
+          id="last-name"
+          name="last-name"
+          placeholder="Last Name"
+          required
+        />
+        <div class="email-verification">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Email"
+            required
+          />
+          <button type="button" id="verify-btn" onclick="sendOTP()">
+            Verify
+          </button>
+        </div>
+        <div class="timer" id="timer"></div>
+
+        <input
+          type="text"
+          id="otp"
+          placeholder="Enter OTP"
+          maxlength="6"
+          style="margin-top: 10px"
+          disabled
+        />
+        <div
+          class="verified-message"
+          id="verified-message"
+          style="display: none"
+        >
+          Verified Email ID
+        </div>
+
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+        <input
+          type="password"
+          id="confirm-password"
+          placeholder="Confirm Password"
+          required
+        />
+        <button type="submit" id="signup-btn" disabled>Sign Up</button>
+      </form>
+
+      <div class="login-link">
+        <a href="{{ url_for('login') }}">Already have an account? Login</a>
+      </div>
+    </div>
+
+    <script>
+      let timerInterval;
+      let timeLeft = 0;
+      let otpSent = false;
+      let emailVerified = false;
+
+      function sendOTP() {
+        const emailInput = document.getElementById("email");
+        const verifyBtn = document.getElementById("verify-btn");
+        const otpInput = document.getElementById("otp");
+        const verifiedMessage = document.getElementById("verified-message");
+        const signupBtn = document.getElementById("signup-btn");
+        const timer = document.getElementById("timer");
+
+        if (!emailInput.checkValidity()) {
+          alert("Please enter a valid email address.");
+          return;
+        }
+
+        fetch("/send_otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: emailInput.value }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              otpSent = true;
+              emailVerified = false;
+              otpInput.disabled = false;
+              verifyBtn.disabled = true;
+              startTimer(120);
+              timer.textContent = "OTP sent. You can resend after 2 minutes.";
+              verifiedMessage.style.display = "none";
+              signupBtn.disabled = true;
+            } else {
+              alert("Failed to send OTP. Try again.");
+            }
+          });
+      }
+
+      function startTimer(duration) {
+        timeLeft = duration;
+        const timer = document.getElementById("timer");
+        const verifyBtn = document.getElementById("verify-btn");
+
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+          if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            timer.textContent = "";
+            verifyBtn.disabled = false;
+          } else {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            timer.textContent = `Resend OTP in ${minutes}:${
+              seconds < 10 ? "0" : ""
+            }${seconds}`;
+            timeLeft--;
+          }
+        }, 1000);
+      }
+
+      document.getElementById("otp").addEventListener("input", function () {
+        const otp = this.value;
+        const emailInput = document.getElementById("email");
+        const verifiedMessage = document.getElementById("verified-message");
+        const signupBtn = document.getElementById("signup-btn");
+
+        if (otp.length === 6) {
+          fetch("/verify_otp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: emailInput.value, otp: otp }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.verified) {
+                emailVerified = true;
+                verifiedMessage.style.display = "block";
+                signupBtn.disabled = false;
+              } else {
+                emailVerified = false;
+                verifiedMessage.style.display = "none";
+                signupBtn.disabled = true;
+                alert("Invalid OTP. Please try again.");
+              }
+            });
+        } else {
+          emailVerified = false;
+          verifiedMessage.style.display = "none";
+          signupBtn.disabled = true;
+        }
+      });
+
+      document
+        .getElementById("signup-form")
+        .addEventListener("submit", function (e) {
+          const password = document.getElementById("password").value;
+          const confirmPassword =
+            document.getElementById("confirm-password").value;
+          const signupBtn = document.getElementById("signup-btn");
+
+          if (!emailVerified) {
+            alert("Please verify your email before signing up.");
+            e.preventDefault();
+            return false;
+          }
+
+          if (password !== confirmPassword) {
+            alert("Passwords do not match.");
+            e.preventDefault();
+            return false;
+          }
+
+          return true;
+        });
+    </script>
+  </body>
+</html>
